@@ -19,6 +19,7 @@ import { toast } from "react-toastify";
 const UserProfile = () => {
   const [bookings, setBookings] = useState();
   const [user, setUser] = useState();
+  // console.log(bookings.user);
   useEffect(() => {
     getUserBooking()
       .then((res) => setBookings(res.bookings))
@@ -43,8 +44,17 @@ const UserProfile = () => {
             justifyContent="center"
             alignItems={"center"}
             width={"30%"}
-            padding={3}
+            padding={0}
           >
+            <Typography
+              variant="h4"
+              fontFamily={"verdana"}
+              textAlign="center"
+              padding={2}
+              sx={{ color: "purple", fontWeight: "bold" }}
+            >
+              User Profile:
+            </Typography>
             <AccountCircleIcon
               sx={{ fontSize: "8rem", textAlign: "center", ml: 18 }}
               className="acc-icon"
@@ -75,13 +85,13 @@ const UserProfile = () => {
         {bookings && (
           <Box width={"70%"} display="flex" flexDirection={"column"}>
             <Typography
-              variant="h3"
+              variant="h4"
               fontFamily={"verdana"}
               textAlign="center"
               padding={2}
               sx={{ color: "purple", fontWeight: "bold" }}
             >
-              Bookings
+              Bookings:
             </Typography>
             <Box
               margin={"auto"}

@@ -36,7 +36,6 @@ const AddMovie = () => {
     addMovie({ ...inputs, actors })
       .then((res) => {
         // console.log(res);
-        toast.success("Movie Added Successfully");
         setInputs({
           title: "",
           description: "",
@@ -44,6 +43,7 @@ const AddMovie = () => {
           releaseDate: "",
           featured: false,
         });
+        toast.success("Movie Added Successfully!");
       })
       .catch((err) => toast.error(err));
   };

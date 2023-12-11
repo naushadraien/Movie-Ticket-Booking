@@ -15,19 +15,19 @@ export const addAdmin = async (req, res, next) => {
     return console.log(err);
   }
 
-  if (existingAdmin) {
+  if (existingAdmin?._id) {
     return res.status(400).json({ message: "Admin already exists" });
   }
 
   let admin;
-  const hashedPassword = bcrypt.hashSync(password);
+  const hashedPassword = bcrypt.hashSync(password && password);
   try {
     admin = new Admin({ email, password: hashedPassword });
     admin = await admin.save();
   } catch (err) {
     return console.log(err);
   }
-  if (!admin) {
+  if (!admin?._id) {
     return res.status(500).json({ message: "Unable to store admin" });
   }
   return res.status(201).json({ admin });
@@ -60,9 +60,11 @@ export const adminLogin = async (req, res, next) => {
     expiresIn: "7d",
   });
 
-  return res
-    .status(200)
-    .json({ message: "Authentication Complete", token, id: existingAdmin._id });
+  return res.status(200).json({
+    message: "Welcome Back Admin!",
+    token,
+    id: existingAdmin._id,
+  });
 };
 
 export const getAdmins = async (req, res, next) => {

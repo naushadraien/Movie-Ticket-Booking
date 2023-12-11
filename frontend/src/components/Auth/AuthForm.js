@@ -1,3 +1,4 @@
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import {
   Box,
   Button,
@@ -8,9 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
-import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
 const labelStyle = { mt: 1, mb: 1 };
 const AuthForm = ({ onSubmit, isAdmin }) => {
   const [inputs, setInputs] = useState({
@@ -28,7 +27,6 @@ const AuthForm = ({ onSubmit, isAdmin }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     onSubmit({ inputs, signup: isAdmin ? false : isSignup });
-    toast.success(`Logged In Successfully! ${inputs.name}`);
   };
   return (
     <Dialog PaperProps={{ style: { borderRadius: 20 } }} open={true}>

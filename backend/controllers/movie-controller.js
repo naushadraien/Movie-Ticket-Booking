@@ -78,6 +78,21 @@ export const getAllMovies = async (req, res, next) => {
   return res.status(200).json({ movies });
 };
 
+export const deleteMovie = async (req, res, next) => {
+  const { id } = req.params;
+  // console.log(id);
+  let movie;
+  try {
+    movie = await Movie.findByIdAndDelete(id);
+  } catch (err) {
+    return console.log(err);
+  }
+  if (!movie) {
+    return res.status(500).json({ message: "Something went wrong" });
+  }
+  return res.status(200).json({ message: "Deleted Successfully" });
+};
+
 export const getMovieById = async (req, res, next) => {
   const id = req.params.id;
   let movie;

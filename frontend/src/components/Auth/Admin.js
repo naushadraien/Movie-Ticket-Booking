@@ -12,6 +12,8 @@ const Admin = () => {
   const onResReceived = (data) => {
     // console.log(data);
     dispatch(adminActions.login());
+    toast.success(data.message);
+    // window.location.reload();
     localStorage.setItem("adminId", data.id);
     localStorage.setItem("token", data.token);
     navigate("/");
@@ -20,7 +22,7 @@ const Admin = () => {
     // console.log("Admin", data);
     sendAdminAuthRequest(data.inputs, data.signup)
       .then(onResReceived)
-      .catch((err) => toast.error(err));
+      .catch((err) => toast.error(err.response.data.message));
   };
   return (
     <div>

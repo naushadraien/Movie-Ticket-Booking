@@ -12,6 +12,7 @@ const Auth = () => {
   const onResReceived = (data) => {
     // console.log(data);
     dispatch(userActions.login());
+    toast.success(data.message);
     localStorage.setItem("userId", data.id);
     navigate("/");
   };
@@ -19,7 +20,7 @@ const Auth = () => {
     // console.log(data);
     sendUserAuthRequest(data.inputs, data.signup)
       .then(onResReceived)
-      .catch((err) => toast.error(err));
+      .catch((err) => toast.error(err.response.data.message));
   };
 
   return (

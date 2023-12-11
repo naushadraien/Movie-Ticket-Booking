@@ -11,14 +11,40 @@ export const getAllMovies = async () => {
   return data;
 };
 
-export const sendUserAuthRequest = async (data, signup) => {
+export const getAllUsers = async () => {
+  const res = await axios.get("/user").catch((err) => toast.error(err));
+
+  if (res.status !== 200) {
+    return toast.error("No Data");
+  }
+
+  const { data } = res;
+  return data;
+};
+
+export const deleteUsers = async (id) => {
   const res = await axios
-    .post(`/user/${signup ? "signup" : "login"}`, {
-      name: signup ? data.name : "",
-      email: data.email,
-      password: data.password,
+    .delete(`/user/${id}`)
+    .then((res) => {
+      toast.success("Deleted Successfully!");
+      window.location.reload();
     })
     .catch((err) => toast.error(err));
+
+  if (res.status !== 200) {
+    return toast.error("Unexpected Error");
+  }
+
+  const resData = await res.data;
+  return resData;
+};
+
+export const sendUserAuthRequest = async (data, signup) => {
+  const res = await axios.post(`/user/${signup ? "signup" : "login"}`, {
+    name: signup ? data.name : "",
+    email: data.email,
+    password: data.password,
+  });
 
   if (res.status !== 200 && res.status !== 201) {
     toast.error("Unexpected Error Occurred");
@@ -29,15 +55,13 @@ export const sendUserAuthRequest = async (data, signup) => {
 };
 
 export const sendAdminAuthRequest = async (data, signup) => {
-  const res = await axios
-    .post(`/admin/${signup ? "signup" : "login"}`, {
-      email: data.email,
-      password: data.password,
-    })
-    .catch((err) => toast.error(err));
+  const res = await axios.post(`/admin/${signup ? "signup" : "login"}`, {
+    email: data && data.email,
+    password: data && data.password,
+  });
 
   if (res.status !== 200) {
-    return toast.error("Unexpected Error");
+    return console.log("Unexpected Error");
   }
 
   const resData = await res.data;
@@ -49,6 +73,17 @@ export const getMovieDetails = async (id) => {
   if (res.status !== 200) {
     return toast.error("Unexpected Error");
   }
+  const resData = await res.data;
+  return resData;
+};
+
+export const deleteMovies = async (id) => {
+  const res = await axios.delete(`/movie/${id}`);
+
+  if (res.status !== 200) {
+    return toast.error("Unexpected Error");
+  }
+
   const resData = await res.data;
   return resData;
 };
@@ -111,28 +146,26 @@ export const getUserDetails = async () => {
 };
 
 export const addMovie = async (data) => {
-  const res = await axios
-    .post(
-      "/movie",
-      {
-        title: data.title,
-        description: data.description,
-        releaseDate: data.releaseDate,
-        posterUrl: data.posterUrl,
-        fetaured: data.fetaured,
-        actors: data.actors,
-        admin: localStorage.getItem("adminId"),
+  const res = await axios.post(
+    "/movie",
+    {
+      title: data.title,
+      description: data.description,
+      releaseDate: data.releaseDate,
+      posterUrl: data.posterUrl,
+      fetaured: data.fetaured,
+      actors: data.actors,
+      admin: localStorage.getItem("adminId"),
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    )
-    .catch((err) => toast.error(err));
+    }
+  );
 
   if (res.status !== 201) {
-    return toast.error("Unexpected Error Occurred");
+    return console.log("Unexpected Error Occurred");
   }
 
   const resData = await res.data;

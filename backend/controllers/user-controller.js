@@ -37,7 +37,9 @@ export const singup = async (req, res, next) => {
   if (!user) {
     return res.status(500).json({ message: "Unexpected Error Occured" });
   }
-  return res.status(201).json({ id: user._id });
+  return res
+    .status(201)
+    .json({ id: user._id, message: "Registered Successfully!" });
 };
 export const updateUser = async (req, res, next) => {
   const id = req.params.id;
@@ -71,10 +73,10 @@ export const updateUser = async (req, res, next) => {
 };
 
 export const deleteUser = async (req, res, next) => {
-  const id = req.params.id;
+  const { id } = req.params;
   let user;
   try {
-    user = await User.findByIdAndRemove(id);
+    user = await User.findByIdAndDelete(id);
   } catch (err) {
     return console.log(err);
   }
@@ -96,7 +98,7 @@ export const login = async (req, res, next) => {
     return console.log(err);
   }
 
-  if (!existingUser) {
+  if (!existingUser?._id) {
     return res
       .status(404)
       .json({ message: "Unable to find user from this ID" });
@@ -108,9 +110,10 @@ export const login = async (req, res, next) => {
     return res.status(400).json({ message: "Incorrect Password" });
   }
 
-  return res
-    .status(200)
-    .json({ message: "Login Successfull", id: existingUser._id });
+  return res.status(200).json({
+    message: `Welcome Back! ${existingUser.name}`,
+    id: existingUser._id,
+  });
 };
 export const getBookingsOfUser = async (req, res, next) => {
   const id = req.params.id;

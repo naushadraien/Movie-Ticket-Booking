@@ -1,0 +1,118 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+.flex{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 0 20rem;
+  padding: 0 2rem;
+  flex-wrap: wrap;
+  overflow: hidden;
+
+  @media screen and (max-width: 768px){
+
+    img{
+      width: 8rem;
+      height: 8rem;
+    }
+
+    .typy{
+      font-size: 0.8rem;
+    }
+}
+}
+
+.card-content{
+  text-align: center;
+}
+
+.toolbar{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2rem;
+  background-color: purple;
+  color: white;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  height: 4rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+
+}
+.img{
+  border-radius: 1rem;
+  margin-bottom: -2rem;
+}
+
+
+
+@media screen and (max-width: 768px){
+  .flex{
+    margin: 0 0rem;
+  }
+  .text-field{
+    width: 50%;
+  }
+    .btn {
+      width: 50% !important;
+    }
+    .box{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      width: 100%;
+
+      .acc-icon{
+        margin-left: 0rem;
+      }
+
+      .name-email{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        padding:0 5rem;
+        /* padding-left: -5rem; */
+        /* padding-right: 7rem; */
+        margin-left: -5rem;
+      }
+
+      .list{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+    }
+}
+
+@media screen and (max-width: 400px) {
+  .toolbar {
+      width: 103%;
+  }
+}
+
+@media screen and (max-width: 370px) {
+  .toolbar {
+    width: 108%;
+  }
+}

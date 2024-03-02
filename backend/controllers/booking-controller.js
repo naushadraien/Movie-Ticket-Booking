@@ -46,14 +46,14 @@ export const newBooking = async (req, res, next) => {
       seatNumber,
       user,
     });
-    const session = await mongoose.startSession();
+    const session = await mongoose.startSession(); //this code ensures that the changes to the existingUser, existingMovie, and booking documents are all committed to the database together, or none of them are committed in case of an error.
     session.startTransaction();
     existingUser.bookings.push(booking);
     existingMovie.bookings.push(booking);
     await existingUser.save({ session });
     await existingMovie.save({ session });
     await booking.save({ session });
-    session.commitTransaction();
+    session.commitTransaction(); //this code ensures that the changes to the existingUser, existingMovie, and booking documents are all committed to the database together, or none of them are committed in case of an error.
   } catch (err) {
     return console.log(err);
   }

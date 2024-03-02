@@ -10,7 +10,8 @@ const Auth = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const onResReceived = (data) => {
-    // console.log(data);
+    // here data is the response from the server on successful login
+    console.log(data);
     dispatch(userActions.login());
     toast.success(data.message);
     localStorage.setItem("userId", data.id);

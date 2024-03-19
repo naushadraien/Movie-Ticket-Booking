@@ -8,7 +8,6 @@ import {
 import React from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
 
 const MovieItem = ({ title, releaseDate, posterUrl, id, actors }) => {
   const isUserLoggedIn = useSelector((state) => state.user.isLoggedIn);
@@ -49,7 +48,7 @@ const MovieItem = ({ title, releaseDate, posterUrl, id, actors }) => {
           variant="contained"
           fullWidth
           LinkComponent={Link}
-          to={`${isUserLoggedIn ? `/booking/${id}` : "/"}`}
+          to={`${isUserLoggedIn ? `/booking/${id}` : "/auth"}`}
           sx={{
             margin: "auto",
             bgcolor: "purple",
@@ -58,9 +57,6 @@ const MovieItem = ({ title, releaseDate, posterUrl, id, actors }) => {
             },
           }}
           size="small"
-          onClick={() =>
-            !isUserLoggedIn && toast.error("Only User Can Book Movie!")
-          }
         >
           Book
         </Button>

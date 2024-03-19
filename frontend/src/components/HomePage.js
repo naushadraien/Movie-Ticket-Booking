@@ -20,7 +20,7 @@ const HomePage = () => {
   const lastIndex = currentpage * recordsPerPage;
   const firstIndex = lastIndex - recordsPerPage;
   const currentRecords = movies && movies.slice(firstIndex, lastIndex);
-  const totalPages = Math.ceil(movies.length / recordsPerPage);
+  const totalPages = Math.ceil(movies?.length / recordsPerPage);
   //Previous Method for copying the array of numbers from 1 to totalPages - 1 (excluding 0) to be used as page numbers in the pagination buttons
   // const numberOfPages = [...Array(totalPages).keys()].slice(1); //this is to create an array of numbers from 1 to totalPages - 1 (excluding 0) to be used as page numbers in the pagination buttons
 
@@ -69,7 +69,7 @@ const HomePage = () => {
         alignItems="center"
         flexWrap="wrap"
       >
-        {currentRecords.map((movie, index) => (
+        {currentRecords?.map((movie, index) => (
           <MovieItem
             id={movie._id}
             title={movie.title}
@@ -111,7 +111,7 @@ const HomePage = () => {
           ))} */}
 
           {/* Best Method for showing number of Pages when clicked */}
-          {pageNumbers.map((page) => (
+          {pageNumbers?.map((page) => (
             <button
               key={page}
               onClick={() => changeCurrentPage(page)}

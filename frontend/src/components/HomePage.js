@@ -10,7 +10,7 @@ const HomePage = () => {
 
   useEffect(() => {
     getAllMovies()
-      .then((data) => setMovies(data.movies))
+      .then((data) => setMovies(data?.movies))
       .catch((err) => toast.error(err));
   }, []);
 
@@ -19,7 +19,7 @@ const HomePage = () => {
   const recordsPerPage = 2;
   const lastIndex = currentpage * recordsPerPage;
   const firstIndex = lastIndex - recordsPerPage;
-  const currentRecords = movies.slice(firstIndex, lastIndex);
+  const currentRecords = movies && movies.slice(firstIndex, lastIndex);
   const totalPages = Math.ceil(movies.length / recordsPerPage);
   //Previous Method for copying the array of numbers from 1 to totalPages - 1 (excluding 0) to be used as page numbers in the pagination buttons
   // const numberOfPages = [...Array(totalPages).keys()].slice(1); //this is to create an array of numbers from 1 to totalPages - 1 (excluding 0) to be used as page numbers in the pagination buttons
@@ -27,7 +27,8 @@ const HomePage = () => {
   //Best Method for copying the array of numbers from current page - 3 to current page + 3 to be used as page numbers in the pagination buttons
   const pageNumbers = []; //this is to create an array of numbers from current page - 3 to current page + 3 to be used as page numbers in the pagination buttons
 
-  for (let i = currentpage - 1; i <= currentpage + 1; i++) {//this checks that there will be 1 page number before and 1 page number after the current page
+  for (let i = currentpage - 1; i <= currentpage + 1; i++) {
+    //this checks that there will be 1 page number before and 1 page number after the current page
     // Previously i is current page - 3 and i is less than or equal to current page + 3 and i++
     if (i < 1) continue; //if i is less than 1 then continue
     if (i > totalPages) break; //if i is greater than total page then break

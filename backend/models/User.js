@@ -15,7 +15,19 @@ const userSchema = new Schema({
     required: true,
     minLength: 6,
   },
+  role: {
+    enum: ["user", "admin"],
+    type: String,
+    default: "user",
+  },
   bookings: [{ type: mongoose.Types.ObjectId, ref: "Booking" }],
+  addedMovies: [
+    {
+      type: mongoose.Types.ObjectId,
+      ref: "Movie",
+      default: undefined,
+    },
+  ],
 });
 
 export default mongoose.model("User", userSchema);

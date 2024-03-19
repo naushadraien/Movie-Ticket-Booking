@@ -17,6 +17,7 @@ export const newBooking = async (req, res, next) => {
     //   existing_release_date,
     // );
     existingUser = await User.findById(user);
+    // console.log(existingUser);
   } catch (err) {
     return console.log(err);
   }
@@ -39,6 +40,10 @@ export const newBooking = async (req, res, next) => {
       .json({ message: "Booking unavailable before the release date!" });
   }
 
+  const bookingHai = await Bookings.findOne({ seatNumber, date, movie });
+  if (bookingHai) {
+    return res.status(400).json({ message: "Seat Number not available!" });
+  }
   try {
     booking = new Bookings({
       movie,

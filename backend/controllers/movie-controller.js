@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import Admin from "../models/Admin.js";
 import Movie from "../models/Movie.js";
+import User from "../models/User.js";
 export const addMovie = async (req, res, next) => {
   const extractedToken = req.headers.authorization.split(" ")[1];
   if (!extractedToken && extractedToken.trim() === "") {
@@ -46,7 +47,10 @@ export const addMovie = async (req, res, next) => {
       title,
     });
     const session = await mongoose.startSession();
-    const adminUser = await Admin.findById(adminId);
+    const adminUser = await User.findOne({ _id: adminId, role: "admin" });
+    if (!adminUser) {
+      throw new Error("Not Authorized as Admin!");
+    }
     session.startTransaction();
     await movie.save({ session });
     adminUser.addedMovies.push(movie);

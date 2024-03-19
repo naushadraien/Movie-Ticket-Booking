@@ -1,6 +1,7 @@
 import Admin from "../models/Admin.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import User from "../models/User.js";
 
 export const addAdmin = async (req, res, next) => {
   const { email, password } = req.body;
@@ -10,7 +11,7 @@ export const addAdmin = async (req, res, next) => {
 
   let existingAdmin;
   try {
-    existingAdmin = await Admin.findOne({ email });
+    existingAdmin = await User.findOne({ email, role: "admin" });
   } catch (err) {
     return console.log(err);
   }
@@ -22,7 +23,7 @@ export const addAdmin = async (req, res, next) => {
   let admin;
   const hashedPassword = bcrypt.hashSync(password && password);
   try {
-    admin = new Admin({ email, password: hashedPassword });
+    admin = new User({ email, password: hashedPassword });
     admin = await admin.save();
   } catch (err) {
     return console.log(err);
@@ -40,7 +41,7 @@ export const adminLogin = async (req, res, next) => {
   }
   let existingAdmin;
   try {
-    existingAdmin = await Admin.findOne({ email });
+    existingAdmin = await User.findOne({ email, role: "admin" });
   } catch (err) {
     return console.log(err);
   }
@@ -70,7 +71,7 @@ export const adminLogin = async (req, res, next) => {
 export const getAdmins = async (req, res, next) => {
   let admins;
   try {
-    admins = await Admin.find();
+    admins = await User.find({ role: "admin" });
   } catch (err) {
     return console.log(err);
   }
@@ -85,12 +86,12 @@ export const getAdminById = async (req, res, next) => {
 
   let admin;
   try {
-    admin = await Admin.findById(id).populate("addedMovies");
+    admin = await User.findById(id).populate("addedMovies");
   } catch (err) {
     return console.log(err);
   }
-  if (!admin) {
-    return console.log("Cannot find Admin");
+  if (admin.role !== "admin") {
+    throw new Error("Not Authorized as admin");
   }
   return res.status(200).json({ admin });
 };
